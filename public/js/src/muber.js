@@ -27,7 +27,7 @@
         $.getJSON(flickerAPI, {
             longitude: longitude,
             latitude: latitude,
-            distance: 1
+            distance: 7
         }).done(function (data) {
             console.log(JSON.stringify(data, null, '\t'));
             writeStops(data.results, data.count);
