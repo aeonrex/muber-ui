@@ -1,0 +1,69 @@
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, strong, form, table, footer, header, menu, nav, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+body {
+    font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+    font-size: 16px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('../images/background.jpg') no-repeat fixed;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+}
+
+#header {
+    background: whitesmoke;
+    opacity: 0.75;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 0;
+    position: relative;
+
+}
+
+#header div#title {
+    font-size: 36px;
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+#header #title > #subTitle {
+    margin-left: auto;
+    margin-right: auto;
+    font-style: italic;
+    font-size: 18px;
+}
+
+#container {
+    max-width: 50%;
+    height: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+}
+
+#timetable {
+    background: whitesmoke;
+    opacity: 0.75;
+    width: 48%;
+    float: left;
+}
+
+#map {
+    background: whitesmoke;
+    opacity: 0.75;
+    width: 48%;
+    float: right;
+}
