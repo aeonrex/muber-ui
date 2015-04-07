@@ -76,8 +76,8 @@
     var getStops = function (longitude, latitude, distance) {
         var stops = "https://api-muber.herokuapp.com/v1/stops";
         $.getJSON(stops, {
-            longitude: -122.417541,//longitude,
-            latitude: 37.775245,//latitude,
+            longitude: longitude,
+            latitude: latitude,
             distance: distance
         }).done(function (data) {
             stopCount = data.count;
