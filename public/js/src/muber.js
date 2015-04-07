@@ -2,12 +2,63 @@
     'use strict';
 
     var $subTitle = $('#subTitle');
+    var $loading = $('#loading');
     var $timeTable = $('#timetable');
+    var $stops = $('#stops');
+    var $slider = $('#slider');
 
-    var writeStops = function (stops, length) {
-        for (var i = 0; i < length; i++) {
-            console.log(stops[i].name);
-            $('#timetable').append('<div class="stop">' + stops[i].name + '</div>');
+    var host = 'https://api-muber.herokuapp.com';
+    var stopCount = 0;
+    var finishedCount = 0;
+
+
+    var show = function () {
+        $timeTable.removeClass('hidden');
+        $loading.addClass('hidden');
+    };
+    var hide = function () {
+        $timeTable.addClass('hidden');
+        $loading.removeClass('hidden');
+    };
+
+    var noResults = function () {
+        var content = '<p>Oh no!</p><p>Looks like we don\'t have any data of bus stops in your area.</p><p>Sorry...</p>';
+        $loading.empty();
+        $loading.append(content);
+    };
+
+    var getRadius = function () {
+        return $('#slider').val();
+        //return out;
+    };
+
+    var writeStop = function (stop) {
+        var content = '<div class="stop" data-role="collapsible" id="' + stop.self.id + '">' +
+            '<h2>'
+            + stop.name + '<span class="distance">' + stop.distance.calculated.toFixed(2) + ' mi.</span>' +
+            "</h2>" +
+            '<ol data-role="listview">';
+
+
+        for (var i = 0; i < stop.departures.length; i++) {
+            var dep = stop.departures[i];
+            if (!dep.timeTable) {
+                continue;
+            }
+            content += '<li data-role="collapsible"><h3>' + dep.title + ' - ' + dep.routeTitle + '</h3>';
+            content += '<ol data-role="listview">';
+            for (var j = 0; j < dep.timeTable.length; j++) {
+                var time = dep.timeTable[j];
+                content += '<li><span>' + time.minutes + ' mins</span><span class="bus"> Bus #' + time.vehicle + '</span></li>';
+            }
+            content += '</ol>';
+            content += '</li>'
+        }
+        content += '</ol>' + '</div>';
+        $stops.append(content);
+        $timeTable.collapsibleset('refresh');
+        if (++finishedCount === stopCount) {
+            show();
         }
     };
 
@@ -22,26 +73,54 @@
         }
     };
 
-    var getStops = function (longitude, latitude) {
-        var flickerAPI = "https://api-muber.herokuapp.com/v1/stops";
-        $.getJSON(flickerAPI, {
-            longitude: longitude,
-            latitude: latitude,
-            distance: 7
+    var getStops = function (longitude, latitude, distance) {
+        var stops = "https://api-muber.herokuapp.com/v1/stops";
+        $.getJSON(stops, {
+            longitude: -122.417541,//longitude,
+            latitude: 37.775245,//latitude,
+            distance: distance
         }).done(function (data) {
-            console.log(JSON.stringify(data, null, '\t'));
-            writeStops(data.results, data.count);
+            stopCount = data.count;
+
+            if (stopCount === 0) {
+                noResults();
+            } else {
+                for (var i = 0; i < data.count; i++) {
+                    getDepartures(data.results[i]);
+                }
+            }
         });
     };
 
-    var getDepartures = function (href) {
-        //$.getJSON
+    var getDepartures = function (stop) {
+
+        $.getJSON(host + stop.departures.href).done(function (data) {
+            var dir = [];
+            data.results.forEach(function (res) {
+                dir = dir.concat(res.directions.map(function (direction) {
+                    direction.routeTitle = res.routeTitle;
+                    return direction;
+                }));
+            });
+            console.log(JSON.stringify(data.results, null, '\t'));
+            stop.departures = dir;
+            writeStop(stop);
+        });
+    };
+
+    var search = function () {
+        stopCount = 0;
+        finishedCount = 0;
+        hide();
+        $('#stops').empty();
+        getGeoCoordinates(function (longitude, latitude) {
+            var distance = getRadius();
+            getStops(longitude, latitude, distance);
+        });
     };
 
     $(document).ready(function () {
-        getGeoCoordinates(function (longitude, latitude) {
-         //   alert('Your long: ' + longitude + '\nYour lat: ' + latitude);
-            getStops(longitude, latitude);
-        });
+        search();
+        $('#search').click(search);
     });
 })();
