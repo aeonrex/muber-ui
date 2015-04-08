@@ -5,12 +5,11 @@
     var $loading = $('#loading');
     var $timeTable = $('#timetable');
     var $stops = $('#stops');
-    var $slider = $('#slider');
 
     var host = 'https://api-muber.herokuapp.com';
+    // var host = 'http://localhost:8080';
     var stopCount = 0;
     var finishedCount = 0;
-
 
     var show = function () {
         $timeTable.removeClass('hidden');
@@ -22,14 +21,18 @@
     };
 
     var noResults = function () {
-        var content = '<p>Oh no!</p><p>Looks like we don\'t have any data of bus stops in your area.</p><p>Sorry...</p>';
-        $loading.empty();
-        $loading.append(content);
+        var content = '<p>Oh no!</p>' +
+            '<p>Looks like we don\'t have any data of bus stops in your area.</p>' +
+            '<p></p>' +
+            '<p>Try adjusting the search radius.</p>' +
+            '<p>If you still can\'t find anything try <a href="https://itunes.apple.com/us/app/uber/id368677368?mt=8">Uber</a>!</p>';
+
+        $stops.append(content);
+        show();
     };
 
     var getRadius = function () {
         return $('#slider').val();
-        //return out;
     };
 
     var writeStop = function (stop) {
@@ -74,7 +77,7 @@
     };
 
     var getStops = function (longitude, latitude, distance) {
-        var stops = "https://api-muber.herokuapp.com/v1/stops";
+        var stops = host + '/v1/stops';
         $.getJSON(stops, {
             longitude: longitude,
             latitude: latitude,
