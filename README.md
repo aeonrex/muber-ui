@@ -1,6 +1,8 @@
 # muber-ui
 Muber Web client that displays bus stops and expected departure times near by.
 
+This client isn't the focus of the project. Focus is on the back-end: [Muber's API](https://github.com/t4ks/muber)
+
 Project code: The MIT License (MIT) Copyright (c) 2015 Taylor Kisor-Smith
 
 ##Live [Demo](https://muber.herokuapp.com/)
@@ -26,4 +28,4 @@ npm install && npm start
 ### Tech Spec:
 * Served using [node-http-server](https://www.npmjs.com/package/node-http-server)
 * Built using good ol' fashioned [jQuery](https://jquery.com/) & [jQuery mobile](https://jquerymobile.com/)
-* I choose a simple front end to spend more time on the backend. I was also more familiar with jQuery than other options.
+* I choose a simple front end to spend more time on the backend - focus. I was also more familiar with jQuery than other options.
