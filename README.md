@@ -1,14 +1,22 @@
 # muber-ui
-Municipal transportation API. Data provided by (c) http://www.nextbus.com and it's associates
-Live [Demo](https://muber.herokuapp.com/)
+Muber Web client that displays bus stops and expected departure times near by.
+
+Project code: The MIT License (MIT) Copyright (c) 2015 Taylor Kisor-Smith
+
+##Live [Demo](https://muber.herokuapp.com/)
 
 ## Break Down:
 Muber is built across three different repositories:
 
 * [muber](https://github.com/t4ks/muber) - Muber's RESTful API
-* [muber-ui](https://github.com/t4ks/muber-ui) - Muber's web UI - You are currently here!
+* [muber-ui](https://github.com/t4ks/muber-ui) - Muber's web UI - **You are currently here!**
 * [rest-engine](https://github.com/t4ks/rest-engine) - a wrapper/micro framework that makes it simple to spin up a RESTful service,
     built on top of [Restify](https://www.npmjs.com/package/restify)
+
+### How to Run
+```bash
+npm install && npm start
+```
 
 ### Functional Spec:
 * Option one of coding challenge: "Create a service that gives real-time departure time for public transportation (use freely available public API). The app should geolocalize the user."
