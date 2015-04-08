@@ -66,16 +66,27 @@
     };
 
     var getGeoCoordinates = function (callback) {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                callback(position.coords.longitude, position.coords.latitude);
-            });
-        } else {
-            $subTitle.css('color', '#590000');
-            $subTitle.text('You won\'t have a good time if your browser doesn\'t support location.');
-        }
+        setTimeout(function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    callback(position.coords.longitude, position.coords.latitude);
+                });
+            } else {
+                $subTitle.css('color', '#590000');
+                $subTitle.text('You won\'t have a good time if your browser doesn\'t support location.');
+            }
+        }, 100);
     };
 
+    /**
+     * getStops
+     *
+     * queries stops based on longitude, latitude, and a search radius
+     *
+     * @param {float} longitude
+     * @param {float} latitude
+     * @param {float} distance
+     */
     var getStops = function (longitude, latitude, distance) {
         var stops = host + '/v1/stops';
         $.getJSON(stops, {
@@ -95,6 +106,12 @@
         });
     };
 
+    /**
+     * getDepartures
+     * Takes a stop object and queries for up-coming Buses.
+     *
+     * @param {object} stop
+     */
     var getDepartures = function (stop) {
 
         $.getJSON(host + stop.departures.href).done(function (data) {
@@ -111,6 +128,9 @@
         });
     };
 
+    /**
+     * Triggers the search flow
+     */
     var search = function () {
         stopCount = 0;
         finishedCount = 0;
